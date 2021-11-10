@@ -1,0 +1,29 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: BibimbeatNFTDex
+    network: rinkeby
+    source:
+      address: "0x0486d8d359D973A25616B9a6bB953f73A02E90F8"
+      abi: BibimbeatNFTDex
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - OwnershipTransferred
+        - TradeLog
+        - TradeStatusChange
+      abis:
+        - name: BibimbeatNFTDex
+          file: BibimbeatNFTDex/abis/BibimbeatNFTDex.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: TradeLog(address,address,uint256,uint256,uint256,bytes32,uint256)
+          handler: handleTradeLog
+        - event: TradeStatusChange(uint256,bytes32)
+          handler: handleTradeStatusChange
+      file: BibimbeatNFTDex/BibimbeatNFTDex.wasm
